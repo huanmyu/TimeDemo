@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>时间插件的使用</title>
+	 <!--引入css,css文件夹中需要font文件夹下的文件-->
+	 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	 <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+	 <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	 <!--引入时间段的js-->
+	 <link href="css/daterangepicker-bs3.css"  media="all" rel="stylesheet" type="text/css" />
+
+	 <!--引入js,引入js文件时，jquery-1.11.3.min.js应该首先被引入，bootstrap.min.js文件中引用了moment.js-->
+	 <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	 <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	 <!--bootstrap-datetimepicker.min.js会引用moment.js里面的代码-->
+	 <script type="text/javascript" src="js/moment.js"></script>
+	 <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+	 <!--引入时间段的js:daterangepicker.js-->
+	  <script type="text/javascript" src="js/daterangepicker.js"></script>
+  </head>
+  <body>
+    
+    <div class="box-header" style="margin-top:100px;">
+    <div class="form-group col-sm-6">
+		<label class="col-sm-2 control-label">startTime：</label>
+		<div id="expiredTime" class="input-group col-sm-7" >
+			<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			<input type="text" name="startdatetime" id="startdatetime" class="form-control">
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-6">
+		<label class="col-sm-2 control-label">endTime：</label>
+		<div id="expiredTime2" class="input-group col-sm-7"  style="padding-left: 15px; padding-right: 14px">
+			<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			<input type="text" name="enddatetime" id="enddatetime" class="form-control">
+		</div>
+	</div> 
+</div> 
+<div>
+<div class="form-group col-lg-6">
+				<label class="col-sm-2 control-label">时间段:</label>
+				<div class="input-group col-sm-7">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input type="text" id="startTime1" name="startTime1" class="form-control pull-right" />
+				</div>
+			</div>
+</div>
+  <body>
+</html>
+
+<script type="text/javascript">
+    function timeChange(){
+		var num=new Date();
+		num = num + "";
+		var date = "";
+		var month = new Array();
+		month["Jan"] ="01"; month["Feb"] = "02"; month["Mar"] = "03"; month["Apr"] = "04"; month["May"] = "05"; month["Jun"] = "06";
+		month["Jul"] = "07"; month["Aug"] = "08"; month["Sep"] = "09"; month["Oct"] = "10"; month["Nov"] = "11"; month["Dec"] = "12";
+		var week = new Array();
+		week["Mon"] = "一"; week["Tue"] = "二"; week["Wed"] = "三"; week["Thu"] = "四"; week["Fri"] = "五"; week["Sat"] = "六"; week["Sun"] = "日";
+		str = num.split(" ");
+		date = str[3] + "-";
+		date = date + month[str[1]] + "-" + str[2]+" 00:00:00";
+		return date;
+   }
+ $(function(){
+	var picker1= $("#expiredTime").datetimepicker({
+		format: "YYYY-MM-DD HH:mm:ss", 
+		maxDate: new Date(),
+	});
+	$("#expiredTime span").click(function(){
+		//var t=timeChange();
+		var t=moment(new Date()).format("YYYY-MM-DD")+" 00:00:00";
+		$("#startdatetime").val(t);
+	});
+	var  picker2=$("#expiredTime2").datetimepicker({
+		format: "YYYY-MM-DD HH:mm:ss",
+		maxDate: new Date(),
+	});
+	//动态设置最小值  
+	picker1.on('dp.change', function (e) {  
+		picker2.data('DateTimePicker').setMinDate(e.date);  
+	});  
+	//动态设置最大值  
+	picker2.on('dp.change', function (e) {  
+		picker1.data('DateTimePicker').setMaxDate(e.date);  
+	});
+	
+	//时间段的处理
+	$("#startTime1").daterangepicker({
+	  'format':'YYYY-MM-DD'
+	  });
+	
+	 });
+	 
+	 </script>
